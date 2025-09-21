@@ -1,10 +1,15 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Unbounded } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+});
+
+const unbounded = Unbounded({
+  subsets: ["latin"],
+  weight: ["700"],
 });
 
 const geistMono = Geist_Mono({
@@ -34,7 +39,10 @@ export default function RootLayout({
         }}
       >
         <main className="flex min-h-screen flex-col items-center justify-center p-24">
-          <div className="bg-white/10 backdrop-blur-sm rounded-[50px] p-8">
+          <h1 className={`${unbounded.className} text-6xl font-bold text-black mb-8`}>
+          TRIO
+          </h1>
+          <div className="flex items-center justify-items-center bg-white/10 backdrop-blur-sm rounded-[50px] p-8 max-h-[700px]">
             {children}
           </div>
         </main> 

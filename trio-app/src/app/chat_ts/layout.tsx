@@ -34,7 +34,7 @@ export default function RootLayout({
         }}
       >
         <main className="flex min-h-screen flex-col items-center justify-center p-24">
-          <div className="bg-white/10 backdrop-blur-sm rounded-[50px] p-8 min-w-[1000px] border-1 border-white">
+          <div className="bg-white/10 backdrop-blur-sm rounded-[50px] p-8 min-w-[1000px] border-1 border-white max-h-[600px]">
             {children}
           </div>
         </main> 

@@ -3,11 +3,14 @@
 import React from 'react';
 import { FaMicrophone } from 'react-icons/fa';
 
+const roles = ['Philosopher', 'Rationalist', 'Fun Guy', 'Empath'];
+
 const ChatPage = () => {
   const [audioFile, setAudioFile] = React.useState<File | null>(null);
   const [isRecording, setIsRecording] = React.useState(false);
   const mediaRecorderRef = React.useRef<MediaRecorder | null>(null);
-  const chunksRef = React.useRef<Blob[]>([]);
+  const chunksRef = React.useRef<Blob[]>([])
+
 
   const startRecording = async () => {
     try {
@@ -74,11 +77,12 @@ const ChatPage = () => {
 
   return (
     <div className="h-screen p-6 flex flex-col">
-      <div className="flex-1 grid grid-cols-2 grid-rows-2 gap-10">
-        {Array.from({ length: 4 }).map((_, index) => (
-          <div key={index} className="bg-gray-800 rounded-[50px] flex items-center justify-center min-h-[50px]">
+      <div className="flex-1 grid grid-cols-2 grid-rows-2 gap-10 max-h-[400px]">
+        {roles.map((role, index) => (
+            <div key={index} className="bg-gray-800 rounded-[50px] flex items-center justify-center min-h-[50px] relative">
             <div className="w-24 h-24 bg-blue-500 rounded-full"></div>
-          </div>
+            <span className="absolute bottom-4 right-6 text-white font-medium">{role}</span>
+            </div>
         ))}
       </div>
       
