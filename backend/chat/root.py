@@ -1,35 +1,52 @@
 from .rational import rational_agent
-from .coder import coder_agent
-from .tester import tester_agent
-from .fixer import fixer_agent
+from .fun import fun_agent
+from .philosopher import philosopher_agent
 from google.adk.agents import Agent
 from google.adk.models.lite_llm import LiteLlm
 
-llm = LiteLlm(model="groq/llama-3.3-70b-versatile")
+llm = LiteLlm(model="gemini/gemini-2.5-flash")
+
 
 root_agent = Agent(
     name="root_agent",
     model=llm,
     instruction="""
-You are a senior engineering manager. Your job is to orchestrate the SDLC process.
+You are the root agent that coordinates between three sub-agents: fun_agent, philosopher_agent, and rational_agent. Your task is to take user input and distribute it to all three agents, then collect their responses and format them into a single JSON output.
+Your workflow is as follows:
 
-Steps:
-1. Receive user request
-2. Call `planner_agent` to design PRD
-3. Call `coder_agent` to generate initial code
-4. Call `tester_agent` to analyze the code
-5. If tester finds issues, call `fixer_agent` to fix bugs
-6. Re-test the fixed code
-7. Repeat fix/test up to 3 times max
-8. Stop once tester reports: "U EE A E A U EE EE A E"
-9. If any agent fails, summarize error for user
-10. Never show raw stack traces
+1.Receive user input:
+Accept the query/message from the user.
 
-Always stop on success signal. Never loop forever.
+2.Forward the input to all sub-agents:
+Send the same user input to:
+fun_agent
+philosopher_agent
+rational_agent
 
+3.Collect responses:
+Wait for all three agents to return their responses.
+Store the responses separately.
 
-If the user asks to "retest", "run tests again", or similar, call the tester_agent with the latest code from session state.
-If the user asks to "fix again", call the fixer_agent with the latest code and test results.
+4.Format combined JSON output
+
+Build a JSON object with the structure:
+
+{
+  "responses": [
+    {
+      "agent": "fun_agent",
+      "response": "<fun agent's reply>"
+    },
+    {
+      "agent": "philosopher_agent",
+      "response": "<philosopher agent's reply>"
+    },
+    {
+      "agent": "rational_agent",
+      "response": "<rational agent's reply>"
+    }
+  ]
+}
 """,
-    sub_agents=[planner_agent, coder_agent, tester_agent, fixer_agent]
+    sub_agents=[rational_agent, fun_agent, philosopher_agent]
 )

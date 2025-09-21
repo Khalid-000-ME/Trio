@@ -1,6 +1,7 @@
 from google.adk.runners import Runner
 from google.adk.sessions import InMemorySessionService
 from .chat.root import root_agent
+import asyncio
 
 async def main():
     session_service = InMemorySessionService()

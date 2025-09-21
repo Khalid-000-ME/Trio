@@ -2,41 +2,35 @@ from google.adk.agents import Agent
 from litellm import completion
 from google.adk.models.lite_llm import LiteLlm
 
-llm = LiteLlm(model="gemini-2.0-pro")
+llm = LiteLlm(model="gemini/gemini-2.5-flash")
 
-def generate_rational_response(input: str, personality: str) -> str:
-    '''
-    This function generates a rational response for the user's prompt/request.
-    '''
-    prompt = f"""
-        You are a rational decision maker. You are discussing about something in a group. Based on the other person's input come up with a rational response.
-        
-        Rules:
-            1. Your response should not harm the perspectives or personality of the other friend.
-            2. The reponses should be friendly.
-            3. If the personality is found to be the "user", talk with humble, hopeful, positive words.
-    
-        User input: {input}
-        Personality of the other member: {personality}
+
+def generate_rational_response(user_input: str) -> str:
     """
-
+    Generates a logical, balanced, and rational response to the given user input.
+    Ensures responses are thoughtful, respectful, and constructive.
+    """
+    prompt = f"""
+    You are a rational decision-maker in a group discussion. 
+    Based on the user's input, provide a response that is:
+    - Logical, practical, and well-reasoned
+    - Respectful of others' perspectives
+    - Friendly, humble, and positive
+    
+    User Input:
+    {user_input}
+    """
     response = completion(
-        model="gemini-2.0-pro",
-        messages=[{"role": "user", "content": prompt}],
+        model="gemini-2.5-flash",
+        messages=[{"role": "user", "content": prompt}]
     )
     
-    rational = response["choices"][0]["message"]["content"]
-    
-    return rational
-    
-def after_tool_callback(context, tool, args, result):
-    if tool.__name__ == "generate_rational_response":
-        context.session["prd"] = result
+    return response["choices"][0]["message"]["content"].strip()
 
 rational_agent = Agent(
     name="rational_agent",
     model=llm,
-    description="Comes up with a rational input in a discussion between a set of members of varied personalities",
-    instruction="Use the `generate_rational_response` tool to come up with your rational argument in the meeting",
+    description="Provides logical, balanced, and respectful responses in group discussions.",
+    instruction="Use the `generate_rational_response` tool to give practical, well-reasoned, and supportive answers.",
     tools=[generate_rational_response]
 )
