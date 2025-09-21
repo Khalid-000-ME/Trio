@@ -1,6 +1,7 @@
 from google.adk.runners import Runner
 from google.adk.sessions import InMemorySessionService
-from .chat.root import root_agent
+from .background.root import root_agent as background_agent
+from .chat.root import root_agent as chat_agent
 import asyncio
 
 async def main():
@@ -11,9 +12,15 @@ async def main():
         session_id="session1"
     )
 
-    runner = Runner(
-        app_name="sdlc_cycle",
-        agent=root_agent,
+    runner1 = Runner(
+        app_name="background_agent",
+        agent=background_agent,
+        session_service=session_service,
+    )
+
+    runner2 = Runner(
+        app_name="chat_agent",
+        agent=chat_agent,
         session_service=session_service,
     )
     # you may need to await runner.run() depending on your usage

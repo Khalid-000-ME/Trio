@@ -39,7 +39,7 @@ export default function RootLayout({
         }}
       >
         <main className="flex min-h-screen flex-col items-center justify-center p-24">
-          <h1 className={`${unbounded.className} text-6xl font-bold text-black mb-8`}>
+          <h1 className={`${unbounded.className} text-[150px] font-bold text-black mb-8`}>
           TRIO
           </h1>
           <div className="flex items-center justify-items-center bg-white/10 backdrop-blur-sm rounded-[50px] p-8 max-h-[700px]">
