@@ -34,9 +34,12 @@ export default function RootLayout({
         }}
       >
         <main className="flex min-h-screen flex-col items-center justify-center p-24">
-          <div className="bg-white/10 backdrop-blur-sm rounded-[50px] p-8 min-w-[1000px] border-1 border-white max-h-[600px]">
+            <div className="bg-white/10 backdrop-blur-sm rounded-[50px] p-4 sm:p-6 md:p-8 
+            w-[95%] md:w-[90%] lg:w-[80%] xl:w-[1000px] 
+            max-h-[90vh] lg:max-h-[600px] 
+            border border-white/20">
             {children}
-          </div>
+            </div>
         </main> 
       </body>
     </html>
